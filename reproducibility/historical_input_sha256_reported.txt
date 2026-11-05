@@ -1,0 +1,4 @@
+# Historical input hashes transcribed from output metadata; NOT verified without the original CSV input files.
+8ecc6e7386d2ae1659759f849253cc18e4fec3eefae40dfb60db28777be71664  OHLCV15MIN.csv
+88db7d787e99129e671015fcc581f3507d0a2c527804c285ab555c2b83cd8054  DTWEXBGS.csv
+c054c5d293b251746c5c7414d49e519b085130b4a5c977a8672ebc84abf8be0a  VIXCLS.csv
