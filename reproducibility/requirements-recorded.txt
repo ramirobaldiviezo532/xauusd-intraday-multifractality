@@ -1,9 +1,13 @@
-# Versions reported in the archived base results; NOT a complete pip freeze.
+# Partial list of versions reported in the archived base statistical workbook.
+# This is NOT a complete pip freeze, complete dependency lock or reproducible build.
+# Installed dependencies and transitive requirements can differ in a fresh Colab runtime.
+# Python reported separately: 3.13.18.
 numpy==2.1.3
 pandas==2.2.3
 scipy==1.16.3
 statsmodels==0.15.0
 ruptures==1.1.10
 joblib==1.6.0
-# Additional runtime packages are installed by the notebook without version pins:
+# Additional packages are installed by notebook code without version pins:
 # openpyxl, tabulate, matplotlib, numba, psutil
+# These recorded entries must not be described as an exact historical environment.

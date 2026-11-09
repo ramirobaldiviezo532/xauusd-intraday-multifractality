@@ -1,20 +1,18 @@
-# Output file and field alignment
+# Workbook paths and output-field conventions
 
-The published notebook expects three external input CSVs (`OHLCV15MIN.csv`, `DTWEXBGS.csv`, `VIXCLS.csv`) and writes the eight workbooks at the paths listed in the main `README.md`.
+The Colab notebook writes its output workbooks under the stage subdirectories listed in the [repository README](../README.md). The eight workbooks in `outputs/` are fixed archived results produced with an earlier notebook revision, not freshly executed files.
 
-**Verified output naming:** all eight workbook basenames and their relative stage directories occur in the notebook code. The output files are the supplied completed Excel workbooks copied without editing their contents. The `sha256sum` manifest protects the precise published bytes.
+## Selected cross-version field names
 
-**Field-label corrections retained in the definitive notebook:**
+| Context / output | Archived field name |
+| --- | --- |
+| Base MF-DFA scale diagnostics | `N_escalas` |
+| Base PELT sensitivity | `Multiplicador_penalizacion` |
+| Base Yang–Zhang multiday estimates | `Yang_Zhang_MultiDia_22d` |
+| Stage 6 decision tables | `Cumple` |
 
-| Workbook or analysis | Aligned field label |
-|---|---|
-| MF-DFA export | `N_escalas` |
-| Base PELT multispecification tables | `Multiplicador_penalizacion` |
-| Base Yang–Zhang multiday robustness | `Yang_Zhang_MultiDia_22d` |
-| Stage 6 decision table | `Cumple` |
+These exact column labels are needed when locating fields in the original workbooks. They do not represent a complete data dictionary. Stage 6B has `Summary`, `Replications` and `Parameters` worksheets; its replication design comprises four models, two horizons (30 and 60 days), and 30 replicates per combination (240 rows before any separate sheet-level organization).
 
-These labels were checked against the corresponding Excel column headers. The Stage 6B `Summary`, `Replications`, and `Parameters` sheets were also inspected; its `Parameters` sheet and 240 records match the module configuration.
+The notebook's recorded source descriptors are `Dukascopy` (quote origin) and the literal exported clock label `EST+07`. In the archived base results, `XAUUSD data provider` and `Source time zone` were written as `PENDING_DOCUMENTATION`; they were documented subsequently. New execution of the current notebook can write the later descriptors rather than the historical placeholders.
 
-The two data-provenance defaults in the public notebook are `DATA_VENDOR = "Dukascopy"` and `SOURCE_TIMEZONE = "EST+07"`. The notebook retains a validation branch for the literal `PENDING_DOCUMENTATION`, but it is not its default value.
-
-**External input note:** the raw input CSV files are not bundled. The required filenames and declared CSV field requirements are listed in `data/README.md`; the full contents of those absent CSVs cannot be checked from this repository alone.
+The input names and columns are specified in [`../data/README.md`](../data/README.md). This schema guidance can help reconcile filenames, paths, column labels and descriptive metadata, but **schema agreement is not numerical replication**: identical headings do not prove the same underlying input bytes, stochastic sequences, environment or calculations. No claim of numerical identity from a new full run is implied.

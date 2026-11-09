@@ -1,29 +1,35 @@
-# Input data: reconstruction and distribution limits
+# Input data, provenance and usage boundaries
 
-The three original raw CSV input files are intentionally **not included**.
+Three historical CSV inputs are used by the research notebook; none is distributed in this repository. The SHA-256 values below were **reported in archived result metadata** and have not been recalculated from the unavailable source files.
 
-## XAUUSD market quotes (`OHLCV15MIN.csv`)
+## XAUUSD: `OHLCV15MIN.csv`
 
-- Recorded quote source: **Dukascopy**; instrument: **XAUUSD**, CFD.
-- Download/export management: **StrategyQuant Data Manager**, underlying tick history exported as **closed 15-minute OHLCV** candles.
-- `ICMarkets` is the associated **broker profile**, not the documented origin of the quote history.
-- Recorded timezone label: literal **`EST+07`** from the platform. It has not been equated with UTC or with a standard civil timezone.
-- Scientific study covers **2003-05-05 through 2026-07-31** according to source timestamps; data after the study cutoff were not analyzed.
-- Required columns: `Date`, `Time`, `Open`, `High`, `Low`, `Close` (optional `Volume`). The original notebook expects `YYYYMMDD` dates and `HH:MM:SS` times.
-- Keep the original timestamps, bar order, and unfilled gaps. For intraday returns, only adjacent closed bars separated by exactly 15 minutes generate valid 15-min returns.
-- The notebook derives 30-min OHLC candles by clock-aligned resampling and retains exact 30-min close-to-close intervals. It does not require two source candles per resampling bin.
-- **SHA-256 recorded for the original input:** `8ecc6e7386d2ae1659759f849253cc18e4fec3eefae40dfb60db28777be71664`.
+- **Instrument and quote source:** XAUUSD CFD, Dukascopy. The quote history was managed/exported as closed 15-minute OHLCV candles in StrategyQuant Data Manager. `ICMarkets` denotes a software broker profile, not the documented original quote source.
+- **Time convention:** the exported source label is the literal string `EST+07`. It is not independently established as an IANA/civil timezone, and is not converted to UTC by documentation convention.
+- **Analytic interval:** 2003-05-05 through 2026-07-31, by source timestamps; records after the cutoff were excluded. Reported raw-read and post-cutoff row counts refer to different denominators.
+- **Expected fields:** `Date`, `Time`, `Open`, `High`, `Low`, `Close` (with `Volume` optional); `Date` in `YYYYMMDD`, `Time` in `HH:MM:SS`. Retain rows in source order, original gaps and the export's numerical precision.
+- **Return validation:** only successive closing observations exactly 15 minutes apart form valid 15-minute returns. Derived 30-minute OHLC bars use occupied, clock-aligned bins (`Open`: first; `High`: max; `Low`: min; `Close`: last). A bin need not contain both source 15-minute bars, while a validated 30-minute close-to-close return requires an exact 30-minute timestamp gap. Sensitivity to incomplete bins is not established by these files.
+- **Historical SHA-256 reported for the CSV:** `8ecc6e7386d2ae1659759f849253cc18e4fec3eefae40dfb60db28777be71664`.
 
-A correctly documented fresh export can still differ byte-for-byte from the historical source file. An identical source hash requires the exact original CSV, including formatting and row order. Do not publish the raw price series without confirming the contractual redistribution rights applicable to its acquisition; the public website terms alone are not sufficient to establish your particular rights.
+To obtain new inputs, use an official Dukascopy historical-data channel or an appropriately licensed StrategyQuant data-download workflow, record the feed/instrument, export settings, timestamp and cutoff, and follow the provider's applicable usage terms. Dukascopy provides an official [historical data export](https://www.dukascopy.com/swiss/english/marketwatch/historical/), while [StrategyQuant documents Dukascopy as an integrated source](https://www.strategyquant.com/doc/quantdatamanager/). A new export may differ in bar coverage, gaps, timestamp conventions, formatting, or upstream revisions. Its SHA-256 need not equal the historically reported one even if it covers the same nominal interval.
 
-## External FRED variables
+Dukascopy's [website terms of use](https://www.dukascopy.com/swiss/english/legal-pages/terms-of-use/) impose significant limitations on copying and redistributing website content. The effect of those terms, the actual acquisition contract, and any separate consent on particular raw exports and derived results requires rights-holder review. Free download or academic use does not itself establish public redistribution permission.
 
-- `DTWEXBGS`: U.S. nominal broad trade-weighted dollar index — https://fred.stlouisfed.org/series/DTWEXBGS
-- `VIXCLS`: Cboe VIX index daily closing series — https://fred.stlouisfed.org/series/VIXCLS
-- Recorded input SHA-256: `DTWEXBGS.csv` = `88db7d787e99129e671015fcc581f3507d0a2c527804c285ab555c2b83cd8054`; `VIXCLS.csv` = `c054c5d293b251746c5c7414d49e519b085130b4a5c977a8672ebc84abf8be0a`.
+## Macroeconomic inputs from FRED
 
-These series may be revised or formatted differently in subsequent downloads. Third-party licenses apply (particularly to Cboe's VIX data); public access on FRED does not automatically confer redistribution permission.
+| Input CSV | Series | Frequency and attribution | Historically reported SHA-256 |
+| --- | --- | --- | --- |
+| `DTWEXBGS.csv` | [Nominal broad U.S. dollar index](https://fred.stlouisfed.org/series/DTWEXBGS) | Daily; Board of Governors of the Federal Reserve System (US) | `88db7d787e99129e671015fcc581f3507d0a2c527804c285ab555c2b83cd8054` |
+| `VIXCLS.csv` | [Cboe VIX](https://fred.stlouisfed.org/series/VIXCLS) | Daily close; Cboe | `c054c5d293b251746c5c7414d49e519b085130b4a5c977a8672ebc84abf8be0a` |
 
-## Optional calendar
+FRED supports access to downloadable series, but recent downloads may have revised observations and may differ from the study snapshots. The [FRED API terms](https://fred.stlouisfed.org/docs/api/terms_of_use.html) explicitly note that individual series can be subject to third-party rights; FRED access does not override those rights. The VIXCLS series page marks Cboe data as copyrighted; it is not interchangeable with the public-domain characterization that may apply to some federal data. Check terms and attribution for each series independently.
 
-`economic_calendar_publication_master.csv` is an optional input to the notebook. It was not supplied with these uploads. Preserve its provenance if it was used in the original run; otherwise the notebook continues without it.
+## Inputs versus outputs
+
+**Not redistributed here:** original XAUUSD candle/price sequences, the three source CSVs and input exports. **Included in `outputs/`:** aggregate findings, model parameters and other computed tables. Some included tables may encode portions of input-derived sequences, event dates, or individual observations rather than only non-reconstructive summaries. This distinction matters for rights clearance. The MIT code license does not apply to third-party quotes, Cboe data, or restricted derivatives. No blanket assessment of permission is made in this README.
+
+The historical hashes are also transcribed in [`reproducibility/historical_input_sha256_reported.txt`](../reproducibility/historical_input_sha256_reported.txt). They can be independently checked **only if the identical original CSV bytes are available**; finding a data series with the same name is insufficient.
+
+## Optional economic calendar
+
+The notebook accepts `economic_calendar_publication_master.csv` as an optional input. It was not part of the archived inputs. Adding a calendar changes the configuration and must be logged separately, rather than presented as an exact reconstruction of the archived analysis.

@@ -1,5 +1,16 @@
-.ipynb_checkpoints/
+# Sensitive or restricted raw input data; never publish automatically
+*.csv
+!reproducibility/*.csv
+input_data/
+checkpoints/
+control/
+*.pkl
+*.pickle
+*.partial
+*.log
+.env
+*.key
+*.pem
 __pycache__/
-Thumbs.db
-desktop.ini
-~$*
+.ipynb_checkpoints/
+.DS_Store

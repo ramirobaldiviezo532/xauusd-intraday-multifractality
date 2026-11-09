@@ -1,55 +1,59 @@
-# Intraday XAUUSD multifractality — code and scientific results
+# Intraday multifractality in XAUUSD
 
-This repository accompanies the manuscript *Temporal organization of intraday multifractality in XAUUSD: surrogates, temporal ablations, and conditional volatility models*.
+Research code, documented inputs and archived results associated with *Temporal organization of intraday multifractality in XAUUSD: surrogates, temporal ablations, and conditional volatility models* (Baldiviezo Romero, 2026).
 
-## Scientific code
-
-`notebooks/XAUUSD_COLAB_ALL_STAGES.ipynb` is the **single definitive public scientific notebook**. It generates the modules in a Google Colab session and implements the entire analytical pipeline: configuration and Stages 1–8, including 6B, 7B and 7C. This publication contains no alternative notebook versions or separately maintained stage scripts.
-
-The eight workbooks in `outputs/` preserve the completed scientific results **byte-for-byte**. Their stored filenames, relative output paths, relevant field labels and stage configuration have been checked against the notebook. No Excel workbook was opened and resaved for cosmetic renaming. See `reproducibility/ARTIFACT_INTEGRITY.md` and `reproducibility/SCHEMA_ALIGNMENT.md` for these checks.
+The study investigates the temporal organization of scaling statistics in 15-minute XAUUSD returns (2003–2026), with a 30-minute analysis for comparison. It uses DFA/MF-DFA, surrogate constructions, temporal ablations, conditional-volatility benchmarks, and secondary analyses of jump-related event windows. Comparisons among the tested mechanisms do not, by themselves, identify a unique causal mechanism.
 
 ## Repository contents
 
-- `notebooks/`: one Colab scientific notebook
-- `outputs/`: eight verified Excel files covering the base analysis and Stages 5, 6, 6B, 7, 7B, 7C and 8
-- `data/README.md`: authorized input-data acquisition and format requirements
-- `reproducibility/`: SHA-256 documentation, software version notes, random seeds and filename/field alignment
-- `manifest_sha256.txt`: SHA-256 checksums for the single notebook and eight archived Excel workbooks; documentation files may be edited independently
-- `LICENSE`: MIT license for the original code and documentation; not a license to redistribute third-party market data
+The executable analysis is in [`notebooks/XAUUSD_COLAB_ALL_STAGES.ipynb`](notebooks/XAUUSD_COLAB_ALL_STAGES.ipynb). When run in Google Colab, its cells write Python modules for the base analysis and Stages 1–8, including Stages 6B, 7B and 7C. The notebook has 14 code cells and two Markdown cells; it contains no saved execution outputs.
 
-## Reproduction instructions
+| Analysis | Archived workbook |
+| --- | --- |
+| Base statistics, DFA and MF-DFA | [`outputs/statistical_results.xlsx`](outputs/statistical_results.xlsx) |
+| Stage 5: jump/event study | [`outputs/stage5_mechanism_v3_results.xlsx`](outputs/stage5_mechanism_v3_results.xlsx) |
+| Stage 6: calibration of D_H | [`outputs/stage6/stage6_dh_calibration_results.xlsx`](outputs/stage6/stage6_dh_calibration_results.xlsx) |
+| Stage 6B: overlapping windows | [`outputs/stage6/stage6b_rolling_overlap_results.xlsx`](outputs/stage6/stage6b_rolling_overlap_results.xlsx) |
+| Stage 7: structural discrimination | [`outputs/stage7/stage7_structural_discrimination_results.xlsx`](outputs/stage7/stage7_structural_discrimination_results.xlsx) |
+| Stage 7B: jump-regime comparisons | [`outputs/stage7b/stage7b_jump_regime_results.xlsx`](outputs/stage7b/stage7b_jump_regime_results.xlsx) |
+| Stage 7C: GARCH-t with BNS-anchored jumps | [`outputs/stage7c/stage7c_garcht_jump_results.xlsx`](outputs/stage7c/stage7c_garcht_jump_results.xlsx) |
+| Stage 8: temporal ablations and benchmark models | [`outputs/stage8/stage8_temporal_ablation_results.xlsx`](outputs/stage8/stage8_temporal_ablation_results.xlsx) |
 
-1. Open `notebooks/XAUUSD_COLAB_ALL_STAGES.ipynb` in Google Colab with a CPU runtime.
-2. Obtain the three input files `OHLCV15MIN.csv`, `DTWEXBGS.csv`, and `VIXCLS.csv` as documented in `data/README.md`, with authorization appropriate to each data source.
-3. Set `DATA_FOLDER` to the input directory or follow the notebook's upload prompt. Set `DRIVE_OUTPUT_DIR` to a separate Google Drive directory to avoid overwriting the archived outputs.
-4. Execute the notebook cells in sequence. The initialization installs required packages, records the environment and configures checkpoints.
-5. Compare the resulting output tables and numerical values using the archived workbooks as reference material.
+The eight workbooks are archived numerical outputs, not files generated during verification of this documentation. They were produced with an earlier notebook revision. Some field labels and data-provenance defaults differ between the archived outputs and the current notebook; see [`reproducibility/SCHEMA_ALIGNMENT.md`](reproducibility/SCHEMA_ALIGNMENT.md).
 
-From the repository root, verify the notebook and Excel workbooks on Linux/macOS (with `sha256sum` available):
+## Inputs and execution
+
+Three source CSV files are required: `OHLCV15MIN.csv` (XAUUSD OHLCV), `DTWEXBGS.csv` (U.S. dollar index), and `VIXCLS.csv` (VIX). They are **not included**. Consult [`data/README.md`](data/README.md) for their providers, formats, timestamp conventions, study cutoff, reported input hashes and limitations of fresh downloads. The optional economic calendar was not supplied for the archived run.
+
+1. Obtain the source files through channels and under terms applicable to your use. Preserve an acquisition log, timestamps, gaps and file checksums. Obtaining equivalent data is not the same as obtaining the identical historical input export.
+2. Open the notebook in a Google Colab CPU runtime. Configure `DATA_FOLDER` or use the notebook's file-upload prompt. Configure `DRIVE_OUTPUT_DIR` to an output location separate from these archived workbooks.
+3. Execute cells in their displayed order, following the notebook's runtime checks and dependency installation. A complete run can require considerable computation. A fresh run can have different software versions, data revisions or outputs.
+4. Compare resulting tables and diagnostic values with the archived workbooks; do not infer numerical equivalence solely from matching filenames or column names.
+
+The software-version record and its limitations are in [`reproducibility/ENVIRONMENT.md`](reproducibility/ENVIRONMENT.md). Random seed rules are in [`reproducibility/SEEDS.md`](reproducibility/SEEDS.md).
+
+## Artifact checks
+
+From the directory containing this README, check the recorded SHA-256 digest for the notebook and all eight result workbooks:
 
 ```bash
 sha256sum -c manifest_sha256.txt
+# or, with Python on Windows/macOS/Linux:
+python reproducibility/verify_manifest.py
 ```
 
-On Windows, use `python reproducibility/verify_manifest.py` to verify the same nine files. The input CSV hashes documented in `data/README.md` refer to the original source exports. They are useful for identifying the inputs but depend on the exact file contents and vendor export format.
+The manifest establishes the integrity of these **nine archived files as distributed**. It does not establish that the provided notebook reproduces all numbers from the unavailable historical input CSV files. See [`reproducibility/ARTIFACT_INTEGRITY.md`](reproducibility/ARTIFACT_INTEGRITY.md).
 
-## Output files
+## Data provenance and rights
 
-| Stage | Workbook |
-|---|---|
-| Base analysis | `outputs/statistical_results.xlsx` |
-| 5 | `outputs/stage5_mechanism_v3_results.xlsx` |
-| 6 | `outputs/stage6/stage6_dh_calibration_results.xlsx` |
-| 6B | `outputs/stage6/stage6b_rolling_overlap_results.xlsx` |
-| 7 | `outputs/stage7/stage7_structural_discrimination_results.xlsx` |
-| 7B | `outputs/stage7b/stage7b_jump_regime_results.xlsx` |
-| 7C | `outputs/stage7c/stage7c_garcht_jump_results.xlsx` |
-| 8 | `outputs/stage8/stage8_temporal_ablation_results.xlsx` |
+XAUUSD source quotes were recorded as Dukascopy CFD market data and exported through StrategyQuant Data Manager as closed 15-minute OHLCV bars. The literal source-clock label `EST+07` is preserved, without converting it into an assumed UTC offset. The additional `DTWEXBGS` and `VIXCLS` series come from FRED; VIX is attributed to Cboe. Raw quotes, FRED snapshots and the historical export pipeline logs are not supplied.
 
-Stage 6B includes the `Summary`, `Replications` and `Parameters` sheets, including 240 model–horizon–replicate records (four models × two horizons × 30 replicates).
+The `LICENSE` file grants MIT rights to original repository code and associated original documentation only. It does **not** license third-party input data. Numeric workbooks may include aggregate statistics and series-derived quantities with different redistribution implications. Rights for sharing such derived material, and for any previously deposited copies, should be evaluated against the applicable source terms and permissions before further public distribution. See [`data/README.md`](data/README.md).
 
-## Data rights and citation
+## Citation and archived versions
 
-The notebook's source metadata identify Dukascopy as the recorded XAUUSD quote source and StrategyQuant as the export software. Third-party raw price data and original FRED downloads are not distributed in this package. Read `data/README.md` for provenance and usage conditions. Before public distribution, confirm the redistribution rights applicable to any market-data-derived information within the workbooks.
+- **Archived v1.0.0 (2026-11-05):** [GitHub release](https://github.com/ramirobaldiviezo532/xauusd-intraday-multifractality/releases/tag/v1.0.0), commit `b211531df4b6539c2715cea12ba013b94f3592cc`, and Zenodo version DOI [10.5281/zenodo.23970440](https://doi.org/10.5281/zenodo.23970440). The Zenodo v1.0.0 archive has been checked against the release archive by MD5 and individual files.
+- **All versions:** Zenodo concept DOI [10.5281/zenodo.23970439](https://doi.org/10.5281/zenodo.23970439) resolves to the most recent archived version. It is not the DOI of a specific software version.
+- **v1.0.1:** documentation/provenance refresh, with the eight archived XLSX files unchanged and no claimed new numerical run; see [`CHANGELOG.md`](CHANGELOG.md). When Zenodo archives a newly published GitHub release it assigns a **new version-specific DOI**. Consult its version record before citing it; no unissued DOI is asserted here.
 
-The repository source URL is recorded in `CITATION.cff`. Add the Zenodo DOI to the manuscript and repository README after the archived release is published. The DOI is not required in `CITATION.cff` for the first release.
+For reproducible citations of an exact software snapshot, prefer the version-specific Zenodo DOI and the corresponding GitHub release/tag. The release archives a research software snapshot and its historical results; checksum agreement does not demonstrate a complete rerun from the original, unavailable input CSV files.

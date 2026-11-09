@@ -1,20 +1,20 @@
 cff-version: 1.2.0
-message: "If you use this software or its archived results, please cite this repository."
+message: "If you use this research software, cite the specific archived version and its Zenodo version DOI."
 title: "Temporal organization of intraday multifractality in XAUUSD: surrogates, temporal ablations, and conditional volatility models (reproducibility code)"
 type: software
 authors:
   - family-names: "Baldiviezo Romero"
     given-names: "Ramiro Junior"
-version: "1.0.0"
-date-released: "2026-11-05"
+    orcid: "https://orcid.org/0009-0002-0962-9676"
+version: "1.0.1"
 license: MIT
 repository-code: "https://github.com/ramirobaldiviezo532/xauusd-intraday-multifractality"
 abstract: >-
-  Google Colab analysis code and archived result tables for an empirical study
-  of intraday XAUUSD multifractality during 2003–2026 using MF-DFA, surrogate
-  data, temporal ablations, seasonal GARCH-t and FIGARCH-t benchmarks, and a
-  secondary bipower-variation jump analysis. The repository contains an
-  integrity manifest with SHA-256 checksums and reproducibility documentation.
+  Google Colab code and archived workbooks associated with an analysis of
+  intraday XAUUSD multifractality using MF-DFA, surrogate data, temporal
+  ablations, conditional-volatility benchmarks and secondary jump analyses.
+  Research materials include an integrity manifest and documentation of
+  input provenance, version records and random-state conventions.
 keywords:
   - XAUUSD
   - econophysics
